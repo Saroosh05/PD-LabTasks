@@ -1,10 +1,10 @@
 #include<iostream>
 #include <windows.h>
-
 using namespace std;
 
-void printHeader();
 void gotoxy(int x, int y);
+char getCharAtxy(short int x, short int y);
+void printHeader();
 void printMaze();
 void printPlayer();
 void printEnemy1();
@@ -23,15 +23,20 @@ void movePlayerRight();
 void movePlayerLeft();
 void movePlayerUp();
 void movePlayerDown();
+void printCharge();
+string changeDirection2();
+string changeDirection1();
+string changeDirection3();
 
-
+string direction2 = "left";
+string direction1 = "down";
+string direction3 = "right";
 int px = 9,py = 32;
 int ex1 = 10, ey1 = 1;
 int ex2 = 80, ey2 = 37;
 int ex3 = 66, ey3 = 22;
 int ex4 = 25, ey4 = 37;
-
-
+int score = 0;
 
 main()
 {
@@ -42,9 +47,18 @@ main()
     printEnemy1();
     printEnemy2();
     printEnemy3();
+    printCharge();
     //printEnemy4();
     while(true){
-    if(GetAsyncKeyState(VK_RIGHT)){
+    direction2 = changeDirection2();
+    direction1 = changeDirection1();
+    direction3 = changeDirection3();
+    moveEnemy1();
+    moveEnemy3();
+    moveEnemy2();
+    //moveEnemy4();
+    Sleep(100);
+        if(GetAsyncKeyState(VK_RIGHT)){
     movePlayerRight();
     }
     if(GetAsyncKeyState(VK_LEFT)){
@@ -56,11 +70,6 @@ main()
     if(GetAsyncKeyState(VK_DOWN)){
         movePlayerDown();
     }
-    moveEnemy1();
-    moveEnemy3();
-    moveEnemy2();
-    //moveEnemy4();
-    Sleep(100);
     }
     
 }
@@ -105,6 +114,15 @@ void printHeader()
     cout << "     To move right        ";
     gotoxy(129, 30);
     cout << "PRESS the RIGHT ARROW KEY.";
+
+    gotoxy(126, 33);
+    cout << "---------------------------------";
+    gotoxy(126, 34);
+    cout << "| SCORE :                       |";
+    gotoxy(126, 35);
+    cout << "---------------------------------";
+    gotoxy(137,34);
+    cout << score;
 }
 
 void printMaze()
@@ -179,6 +197,11 @@ void movePlayerRight()
     }
     printPlayer();
 
+    if((getCharAtxy(px+10,py) == '$') || (getCharAtxy(px+10,py+1) == '$') || (getCharAtxy(px+10,py+2) == '$') || (getCharAtxy(px+10,py+3) == '$') || (getCharAtxy(px+11,py+4) == '$') || (getCharAtxy(px+10,py+5) == '$') || (getCharAtxy(px+10,py+6) == '$') || (getCharAtxy(px+10,py+7) == '$') || (getCharAtxy(px+10,py+8) == '$') ){
+        score = score + 1;
+        gotoxy(137,34);
+        cout << score;
+    }
 }
 
 void movePlayerLeft()
@@ -190,6 +213,12 @@ void movePlayerLeft()
         px = 1;
     }
     printPlayer();
+
+    if((getCharAtxy(px-1,py) == '$') || (getCharAtxy(px-1,py+1) == '$') || (getCharAtxy(px-1,py+2) == '$') || (getCharAtxy(px-1,py+3) == '$') || (getCharAtxy(px-2,py+4) == '$') || (getCharAtxy(px-1,py+5) == '$') || (getCharAtxy(px-1,py+6) == '$') || (getCharAtxy(px-1,py+7) == '$') || (getCharAtxy(px-1,py+8) == '$') ){
+       score = score + 1;
+       gotoxy(137,34);
+       cout << score;
+    }
 
 }
 
@@ -203,6 +232,11 @@ void movePlayerUp()
     }
     printPlayer();
 
+    if((getCharAtxy(px,py-1) == '$') || (getCharAtxy(px+1,py-1) == '$') || (getCharAtxy(px+2,py-1) == '$') || (getCharAtxy(px+3,py-1) == '$') || (getCharAtxy(px+4,py-1) == '$') || (getCharAtxy(px+5,py-1) == '$') || (getCharAtxy(px+6,py-1) == '$') || (getCharAtxy(px+7,py-1) == '$') || (getCharAtxy(px+8,py-1) == '$')){
+       score = score + 1;
+       gotoxy(137,34);
+       cout << score;
+    }
 }
 void movePlayerDown()
 {
@@ -213,11 +247,17 @@ void movePlayerDown()
         py = 33;
     }
     printPlayer();
-
+    
+    if((getCharAtxy(px,py+9) == '$') || (getCharAtxy(px+1,py+9) == '$') || (getCharAtxy(px+2,py+9) == '$') || (getCharAtxy(px+3,py+9) == '$') || (getCharAtxy(px+4,py+9) == '$') || (getCharAtxy(px+5,py+9) == '$') || (getCharAtxy(px+6,py+9) == '$') || (getCharAtxy(px+7,py+9) == '$') || (getCharAtxy(px+8,py+9) == '$')){
+       score = score + 1;
+       gotoxy(137,34);
+       cout << score;
+    }
 }
 
 void printEnemy1()
 {
+    
     gotoxy(ex1, ey1);
     cout << "  ______" << endl ;
     gotoxy(ex1, ey1+1);
@@ -229,9 +269,7 @@ void printEnemy1()
     gotoxy(ex1, ey1+4);
     cout << "(|______|)" << endl ;
     gotoxy(ex1, ey1+5);
-    cout << "  |____|" << endl ;
-    gotoxy(ex1, ey1+6);
-    cout << "   u  u" << endl ;
+    cout << "   ----" << endl ;
 }
 
 void eraseEnemy1()
@@ -255,10 +293,11 @@ void eraseEnemy1()
 void moveEnemy1()
 {
     eraseEnemy1();
-    ey1 = ey1 + 1;
-    if(ey1 == 35)
-    {
-    ey1 = 1;
+    if(direction1 == "down"){
+        ey1 = ey1 + 1;
+    }
+    else if(direction1 == "up"){
+        ey1 = ey1 - 1;
     }
     printEnemy1();
 }
@@ -293,9 +332,17 @@ void eraseEnemy2(){
 void moveEnemy2()
 {
     eraseEnemy2();
-    ex2 = ex2 - 1;
-    if(ex2 == 30){ 
-        ex2 = 80;
+    if(direction2 == "left"){    
+        ex2 = ex2 - 1;
+        //printEnemy2();
+        //ex4 == 30;
+    }
+    else if(direction2 == "right"){
+       // eraseEnemy4();
+        //ex4 = ex4 + 1;
+        //printEnemy4();
+        ex2 = ex2 + 1;
+        //ex2 = 80;
     }
     printEnemy2();
 }
@@ -335,14 +382,17 @@ void eraseEnemy3()
 void moveEnemy3()
 {
     eraseEnemy3();
-    ex3 = ex3 - 1;
-    ey3 = ey3 - 1;
-    if(ey3 == 0){
-        ex3 = 66;
-        ey3 = 22;
+    if(direction3 == "right"){
+        ex3 = ex3 - 1;
+        ey3 = ey3 - 1;
+    }
+    else if(direction3 == "left"){
+        ex3 = ex3 + 1;
+        ey3 = ey3 + 1;
     }
     printEnemy3();
     Sleep(50);
+
 }
 
 void printEnemy4()
@@ -377,16 +427,84 @@ void moveEnemy4()
 {
     eraseEnemy4();
     ex4 = ex4 + 1;
-    if(ex4 == 75){
-        ex4 = 25;
-    }
     printEnemy4();
 }
 
+
+void printCharge()
+{
+    gotoxy(50,20);
+    cout << "|$|";
+
+    gotoxy(95,5);
+    cout << "|$|";
+
+    gotoxy(5,3);
+    cout << "|$|";
+
+    gotoxy(100,28);
+    cout << "|$|";
+
+    gotoxy(106,40);
+    cout << "|$|";
+
+    gotoxy(5,26);
+    cout << "|$|";
+
+ 
+}
 void gotoxy(int x, int y)
 {
 	COORD coordinates;
 	coordinates.X = x;
 	coordinates.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
+
+char getCharAtxy(short int x, short int y)
+{
+    CHAR_INFO ci;
+    COORD xy = {0, 0};
+    SMALL_RECT rect = {x, y, x, y};
+    COORD coordBufSize;
+    coordBufSize.X = 1;
+    coordBufSize.Y = 1;
+    return ReadConsoleOutput(GetStdHandle(STD_OUTPUT_HANDLE), &ci, coordBufSize, xy, &rect) ? ci.Char.AsciiChar: ' ';
+}
+
+string changeDirection2()
+{
+
+    if(ex2 == 30 ){
+        direction2 = "right";
+    }
+    if(ex2 == 80){
+        direction2 = "left";
+    }
+    /*if(ex4 == 80){
+        direction2 = "left";
+    }*/
+    return direction2;
+}
+
+string changeDirection1()
+{
+    if(ey1 == 35 ){
+        direction1 = "up";
+    }
+    if(ey1 == 1){
+        direction1 = "down";
+    }
+    return direction1;
+}
+
+string changeDirection3()
+{
+    if(ey3 ==  22){
+        direction3 = "right";
+    }
+    if(ey3 == 1){
+        direction3 = "left";
+    }
+    return direction3;
 }
