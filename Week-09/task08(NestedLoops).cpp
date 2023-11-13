@@ -29,12 +29,17 @@ string findBrokenKeys(string correctPhrase, string actualTyped)
 
     for (int x = 0; broken[x] != '\0'; x++)
     {
-        for (int y = x + 1; broken[y] != '\0'; y++)
+        for (int y = 0; broken[y] != '\0'; y++)
         {
-            if (broken[x] == broken[y])
+            if (x != y)
             {
-                broken.erase(y,1);
-                y--;
+                if (broken[x] == broken[y])
+                {
+                    for (int z = y; broken[z] != '\0'; z++)
+                    {
+                        broken[z] = broken[z + 1];
+                    }
+                }
             }
         }
     }

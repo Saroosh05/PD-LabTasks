@@ -31,7 +31,7 @@ string longest7SegmentWord(string inputArray[], int size)
         {
             if (inputArray[x][y] == 'k' || inputArray[x][y] == 'm' || inputArray[x][y] == 'v' || inputArray[x][y] == 'w' || inputArray[x][y] == 'x')
             {
-                size;
+                size--;
                 break;
             }
             y++;
