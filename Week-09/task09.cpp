@@ -6,11 +6,11 @@ string longest7SegmentWord(string inputArray[], int size);
 
 main()
 {
+    string inputArray[100];
     int size;
     cout << "Enter the number of words: ";
     cin >> size;
 
-    string inputArray[size];
     cout << "Enter the words, one by one: " << endl;
     for (int x = 0; x < size; x++)
     {
@@ -23,7 +23,7 @@ main()
 
 string longest7SegmentWord(string inputArray[], int size)
 {
-    int sizes[size];
+    int sizes[100];
     for (int x = 0; x < size; x++)
     {
         int y = 0;
@@ -31,7 +31,7 @@ string longest7SegmentWord(string inputArray[], int size)
         {
             if (inputArray[x][y] == 'k' || inputArray[x][y] == 'm' || inputArray[x][y] == 'v' || inputArray[x][y] == 'w' || inputArray[x][y] == 'x')
             {
-                size--;
+                y = 0;
                 break;
             }
             y++;

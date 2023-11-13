@@ -6,11 +6,11 @@ bool areAllElementsIdentical(string inputString[], int size);
 
 main()
 {
+    string inputString[100];
     int size;
     cout << "Enter the size of Array: ";
     cin >> size;
 
-    string inputString[size];
     for (int x = 0; x < size; x++)
     {
         cout << "Enter Element " << x + 1 << ": ";

@@ -6,11 +6,11 @@ void evenOddTransform(int arr[], int size, int n);
 
 main()
 {
+    int numbers[100];
     int size;
     cout << "Enter the size of Array: ";
     cin >> size;
 
-    int numbers[size];
     for (int x = 0; x < size; x++)
     {
         cout << "Enter Element " << x + 1 << ": ";

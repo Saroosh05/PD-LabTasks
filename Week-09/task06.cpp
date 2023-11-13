@@ -6,11 +6,11 @@ int coloringTime(string cols[], int size);
 
 main()
 {
+    string cols[100];
     int size;
     cout << "Enter the size of Array: ";
     cin >> size;
 
-    string cols[size];
     for (int x = 0; x < size; x++)
     {
         cout << "Enter Element " << x + 1 << ": ";
